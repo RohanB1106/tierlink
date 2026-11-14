@@ -24,3 +24,15 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
+
+/* Assistant answers (markdown) */
+.prose-chat p { margin: 0.5rem 0; }
+.prose-chat ul, .prose-chat ol { margin: 0.5rem 0; padding-left: 1.25rem; }
+.prose-chat ul { list-style: disc; }
+.prose-chat ol { list-style: decimal; }
+.prose-chat li { margin: 0.15rem 0; }
+.prose-chat strong { font-weight: 600; }
+.prose-chat code { font-family: var(--font-geist-mono), monospace; font-size: 0.9em; }
+.prose-chat table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.875rem; }
+.prose-chat th, .prose-chat td { border-bottom: 1px solid rgb(127 127 127 / 0.25); padding: 0.35rem 0.75rem 0.35rem 0; text-align: left; white-space: nowrap; }
+.prose-chat th { font-weight: 500; color: rgb(115 115 115); }

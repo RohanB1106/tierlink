@@ -39,6 +39,7 @@ export default function RootLayout({
               ["/consolidation", "Consolidation"],
               ["/products", "Products"],
               ["/platform", "Platforming"],
+              ["/ask", "Ask"],
               ["/parts", "Parts"],
             ].map(([href, label]) => (
               <Link key={href} href={href} className="text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100">

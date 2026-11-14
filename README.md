@@ -15,6 +15,7 @@ Kearney PERLab Hackathon · Team Double Trouble · Corporate Track 3 (BOM Cost L
 - [x] Price lists decoded too (`catalog_matches`), so quoted-but-never-bought SKUs can be compared
 - [x] True Cost per Product (`/products`, `/products/[id]`)
 - [x] Platforming: near-duplicate groups, shared-parts matrix and 3D product-family viewer (`/platform`)
+- [x] Ask the Ledger chatbot (`/ask`), Claude with read-only data tools
 - [ ] True cost per product (incl. spare/warranty)
 - [ ] "Ask the Ledger" chatbot
 - [ ] Platforming clusters + 3D product-family viewer
@@ -110,6 +111,22 @@ On the demo data every product really costs **5–8% more than quoted** (~$562K/
 On the demo data: **82 → 66 part numbers** (the 14 planted brackets fall into exactly their 3 groups; M3 screws group by finish only), ~$72.6K/yr extra price savings.
 
 The 3D viewer (`src/app/platform/viewer.tsx`, React Three Fiber) draws each product from simple solids, one per BOM assembly, colored by whether the assembly is mostly shared parts (core) or product-specific (module). It has an exploded view and click-through to parts.
+
+## Ask the Ledger (AI assistant)
+
+`/ask` is a chat over the live data, powered by Claude (`claude-opus-5-5`, Anthropic TypeScript SDK) with a streaming tool-use loop (`src/app/api/chat/route.ts`). Claude answers by calling read-only tools (`src/lib/chat/tools.ts`):
+
+| Tool | What it does |
+|---|---|
+| `get_consolidation_savings` | Runs the same simulator as `/consolidation` (plants, supplier switch) |
+| `get_product_costs` | True cost per product, optionally part-by-part |
+| `get_part_details` | Price tiers, spend and receipts for one part |
+| `get_platform_candidates` | Standardization groups and commonality |
+| `run_sql` | One `SELECT` for anything else, run in a **read-only transaction** with a 5 s timeout and 100-row cap |
+
+The UI shows each lookup the assistant ran (including its SQL), so answers are auditable. Refusals fall back to another model automatically (server-side `fallbacks: "default"`).
+
+Needs `ANTHROPIC_API_KEY` (Vercel → Settings → Environment Variables, or `.env.local`). Without it, `/ask` shows setup instructions and `/api/chat` returns 503.
 
 ## Database
 

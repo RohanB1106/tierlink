@@ -8,7 +8,7 @@ const modules: { name: string; desc: string; status: string; href?: string }[] =
   { name: "Receipt Ledger", desc: "Every purchase of a part, incl. spare/warranty, with the supplier's original wording.", status: "Live", href: "/parts" },
   { name: "True Cost per Product", desc: "Real cost vs. quoted BOM, incl. shared parts and spare/warranty. Products cost 5-8% more than quoted.", status: "Live", href: "/products" },
   { name: "Platform View", desc: "Near-duplicate parts grouped (82 → 66 part numbers), with a 3D view of the common core and add-on modules.", status: "Live", href: "/platform" },
-  { name: "Ask the Ledger", desc: "Plain-English questions over parts, suppliers and spend.", status: "Planned" },
+  { name: "Ask the Ledger", desc: "Plain-English questions over parts, suppliers and spend, answered by Claude with live database lookups.", status: "Live", href: "/ask" },
 ];
 
 const stats = [
