@@ -8,7 +8,8 @@ Kearney PERLab Hackathon · Team Double Trouble · Corporate Track 3 (BOM Cost L
 
 - [x] Synthetic data generator (`scripts/generate_data.py`)
 - [x] Answer key for scoring (`scripts/answer_key.py`)
-- [ ] Database schema + Ingestion Agent (matching, confidence, review queue)
+- [x] Database schema + loader (Neon Postgres + pgvector, `db/schema.sql`, `scripts/load_db.mjs`)
+- [ ] Ingestion Agent (matching, confidence, review queue)
 - [ ] Receipt Ledger, Price-Break Matrix, Consolidation Simulator
 - [ ] True cost per product (incl. spare/warranty)
 - [ ] "Ask the Ledger" chatbot
@@ -56,6 +57,31 @@ No dependencies needed (Python 3.10+ standard library only).
 5. **Near-duplicates:** 14 L-brackets (3 natural groups) and 10 M3 screw variants, the platforming opportunity.
 6. **Vague lines:** 75 invoice lines missing key attributes (e.g. `SCR MACH PAN M3 ZINC PLTD`). These must go to human review, never auto-matched.
 
-## Planned stack
+## Database
 
-Next.js + TypeScript + Tailwind · FastAPI · PostgreSQL (Supabase) + pgvector · Claude API agents · rapidfuzz + embeddings · scikit-learn · React Three Fiber (3D) · Vercel / Render
+PostgreSQL on **Neon** (free tier, via the Vercel integration) with the `pgvector` extension.
+
+| Table | Purpose |
+|---|---|
+| `plants`, `suppliers`, `products` | Reference data |
+| `parts`, `bom` | Engineering part master and BOMs (attributes stored as JSON, `embedding` column for vector search) |
+| `price_breaks` | Supplier volume tiers |
+| `purchases` | The spend cube, with no engineering part number |
+| `matches` | One "evidence passport" per purchase line: matched part, confidence, match type (identical / alternative / similar), status (auto / pending / approved / rejected), evidence |
+| `match_decisions` | Audit log of every human approve/reject; nothing is overwritten silently |
+
+### Local setup
+
+```bash
+npm install
+npx vercel link            # link this folder to the Vercel project
+npx vercel env pull .env.local   # downloads DATABASE_URL (git-ignored)
+npm run db:load            # creates tables and loads data/*.csv (re-runnable)
+npm run dev
+```
+
+Other scripts: `npm run data:generate` (rebuild CSVs), `npm run data:answer-key` (print planted savings).
+
+## Stack
+
+Next.js 16 + TypeScript + Tailwind · Neon Postgres + pgvector · Vercel · Claude API agents (planned) · fuzzy matching + embeddings (planned) · scikit-learn clustering (planned) · React Three Fiber 3D (planned)

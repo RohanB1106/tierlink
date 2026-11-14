@@ -6,10 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "data:generate": "python3 scripts/generate_data.py",
+    "data:answer-key": "python3 scripts/answer_key.py",
+    "db:load": "node --env-file=.env.local scripts/load_db.mjs"
   },
   "dependencies": {
     "next": "^16.4.6",
+    "postgres": "^4.1.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
@@ -18,6 +22,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "csv-parse": "^7.0.3",
     "eslint": "^9",
     "eslint-config-next": "^16.4.6",
     "tailwindcss": "^4",
