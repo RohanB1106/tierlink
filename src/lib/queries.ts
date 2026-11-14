@@ -2,6 +2,7 @@ import "server-only";
 import { sql } from "@/lib/db";
 import { simulate, type PartDemand, type Tier } from "@/lib/pricing/consolidation";
 import { trueCost, type BomLine, type Product } from "@/lib/pricing/true-cost";
+import { commonality, findCandidates, type PlatformPart } from "@/lib/pricing/platforming";
 
 /** Only confident matches count: auto-matched or human-approved. */
 const CONFIDENT = ["auto", "approved"];
@@ -178,5 +179,48 @@ export async function getProductCosts() {
     costs,
     window: `${months[0]} to ${months[months.length - 1]}`,
     unallocated: unallocated as { spend: number; lines: number },
+  };
+}
+
+/** Near-duplicate candidates, the part-by-product matrix, and BOM assemblies for the 3D view. */
+export async function getPlatformData() {
+  const [{ parts: demand }, rows, products, assemblies] = await Promise.all([
+    getDemand(),
+    sql`
+      select pt.part_number, pt.category, pt.description, pt.attributes,
+             coalesce(sum(b.qty_per * pr.annual_volume), 0)::float8 as annual_units,
+             coalesce(array_agg(distinct b.product_id) filter (where b.product_id is not null), '{}') as products
+      from parts pt
+      left join bom b on b.part_number = pt.part_number
+      left join products pr on pr.product_id = b.product_id
+      group by pt.part_number`,
+    sql`select product_id, name, plant_id, annual_volume from products order by product_id` as unknown as Promise<Product[]>,
+    sql`
+      select b.product_id, b.assembly, b.part_number, b.qty_per::float8 as qty_per, pt.category, pt.description
+      from bom b join parts pt using (part_number)
+      order by b.product_id, b.assembly, b.part_number`,
+  ]);
+  const parts: PlatformPart[] = rows.map((r) => ({
+    part_number: r.part_number,
+    category: r.category,
+    description: r.description,
+    attributes: r.attributes,
+    annualUnits: r.annual_units,
+    products: (r.products as string[]).sort(),
+  }));
+  const candidates = findCandidates(parts, new Map(demand.map((d) => [d.part_number, d])));
+  return {
+    parts,
+    products,
+    candidates,
+    common: commonality(parts, products.map((p) => p.product_id)),
+    assemblies: assemblies as unknown as {
+      product_id: string;
+      assembly: string;
+      part_number: string;
+      qty_per: number;
+      category: string;
+      description: string;
+    }[],
   };
 }

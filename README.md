@@ -14,6 +14,7 @@ Kearney PERLab Hackathon · Team Double Trouble · Corporate Track 3 (BOM Cost L
 - [x] Consolidation Simulator (`/consolidation`), Price-Break Matrix and Receipt Ledger (`/parts/[part]`)
 - [x] Price lists decoded too (`catalog_matches`), so quoted-but-never-bought SKUs can be compared
 - [x] True Cost per Product (`/products`, `/products/[id]`)
+- [x] Platforming: near-duplicate groups, shared-parts matrix and 3D product-family viewer (`/platform`)
 - [ ] True cost per product (incl. spare/warranty)
 - [ ] "Ask the Ledger" chatbot
 - [ ] Platforming clusters + 3D product-family viewer
@@ -101,6 +102,14 @@ Per unit of each product, last 12 months (`src/lib/pricing/true-cost.ts`):
 - **After pooling**: true cost minus the part's consolidation saving, split the same way.
 
 On the demo data every product really costs **5–8% more than quoted** (~$562K/yr in total), spare/warranty adds ~$154K/yr, and the modeled material cost reproduces actual production spend within 0.4%.
+
+## Platforming (Track 1)
+
+`src/lib/pricing/platforming.ts` groups near-duplicate parts with complete linkage: brackets/springs when every dimension is within 10%, fasteners when only the finish differs. The most-used part is proposed as the standard; every group is flagged for engineering sign-off. Its price saving is the *extra* gain from merging volume onto one part, beyond consolidating each variant separately, so nothing is double counted.
+
+On the demo data: **82 → 66 part numbers** (the 14 planted brackets fall into exactly their 3 groups; M3 screws group by finish only), ~$72.6K/yr extra price savings.
+
+The 3D viewer (`src/app/platform/viewer.tsx`, React Three Fiber) draws each product from simple solids, one per BOM assembly, colored by whether the assembly is mostly shared parts (core) or product-specific (module). It has an exploded view and click-through to parts.
 
 ## Database
 
