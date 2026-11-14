@@ -3,7 +3,7 @@ import type Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import { sql } from "@/lib/db";
 import { simulate } from "@/lib/pricing/consolidation";
-import { getDemand, getPart, getPlatformData, getProductCosts, getTiers } from "@/lib/queries";
+import { getDemand, getPart, getPlatformData, getProductCosts, getSupplierNames, getTiers } from "@/lib/queries";
 import { checkSql } from "@/lib/chat/sql-guard";
 
 // Tools the "Ask the Ledger" assistant can call. All are read-only.
@@ -115,7 +115,8 @@ export async function runTool(name: string, input: unknown): Promise<Result> {
       case "get_consolidation_savings": {
         const p = Consolidation.safeParse(input ?? {});
         if (!p.success) return { ok: false, error: "INVALID_INPUT" };
-        const { parts } = await getDemand();
+        const [{ parts }, names] = await Promise.all([getDemand(), getSupplierNames()]);
+        const name = (id?: string) => (id ? (names[id] ?? id) : undefined);
         const s = simulate(parts, {
           plants: p.data.plants ?? ["PEO", "CHA", "FTW"],
           allowSupplierSwitch: p.data.allow_supplier_switch ?? true,
@@ -134,8 +135,8 @@ export async function runTool(name: string, input: unknown): Promise<Result> {
                 part_number: r.part_number,
                 description: r.description,
                 plants: r.plants,
-                suppliers_today: r.currentSuppliers,
-                pooled_supplier: r.chosen?.supplier,
+                suppliers_today: r.currentSuppliers.map(name),
+                pooled_supplier: name(r.chosen?.supplier),
                 tier_today: r.baselineTypicalTier,
                 tier_pooled: r.chosen?.typicalTier,
                 spend: round(r.actualSpend, 0),
@@ -186,7 +187,11 @@ export async function runTool(name: string, input: unknown): Promise<Result> {
       case "get_part_details": {
         const p = Part.safeParse(input);
         if (!p.success) return { ok: false, error: "INVALID_INPUT" };
-        const [detail, tiers] = await Promise.all([getPart(p.data.part_number), getTiers(p.data.part_number)]);
+        const [detail, tiers, names] = await Promise.all([
+          getPart(p.data.part_number),
+          getTiers(p.data.part_number),
+          getSupplierNames(),
+        ]);
         if (!detail) return { ok: false, error: `No part ${p.data.part_number}` };
         const production = detail.receipts.filter((r) => r.order_type === "PRODUCTION");
         const service = detail.receipts.filter((r) => r.order_type !== "PRODUCTION");
@@ -195,7 +200,12 @@ export async function runTool(name: string, input: unknown): Promise<Result> {
           content: {
             part: detail.part,
             used_in: detail.bom,
-            price_tiers_by_supplier: tiers[p.data.part_number] ?? {},
+            price_tiers_by_supplier: Object.fromEntries(
+              Object.entries(tiers[p.data.part_number] ?? {}).map(([id, t]) => [
+                names[id] ?? id,
+                t.map(([min_qty, unit_price]) => ({ min_qty, unit_price })),
+              ]),
+            ),
             production_spend_24m: round(production.reduce((s, r) => s + r.amount, 0), 0),
             spare_warranty_spend_24m: round(service.reduce((s, r) => s + r.amount, 0), 0),
             recent_receipts: detail.receipts.slice(0, 10).map((r) => ({
