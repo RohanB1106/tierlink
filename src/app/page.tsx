@@ -1,7 +1,9 @@
-const modules = [
-  { name: "Ingestion Agent", desc: "Matches messy supplier invoice lines to engineering part numbers, with a confidence score.", status: "Next up" },
-  { name: "Review Queue", desc: "Uncertain matches and duplicates go to a human before any saving is claimed.", status: "Planned" },
-  { name: "Receipt Ledger", desc: "Every purchase line with supplier, date, quantity and cost, with the original wording kept.", status: "Planned" },
+import Link from "next/link";
+
+const modules: { name: string; desc: string; status: string; href?: string }[] = [
+  { name: "Ingestion Agent", desc: "Matches messy supplier invoice lines to engineering part numbers, with a confidence score. 97% auto-matched, 100% precision on the demo data.", status: "Live" },
+  { name: "Review Queue", desc: "Uncertain matches go to a human, with the evidence, before any saving is claimed.", status: "Live", href: "/review" },
+  { name: "Receipt Ledger", desc: "Every purchase line with supplier, date, quantity and cost, with the original wording kept.", status: "Next up" },
   { name: "Price-Break Matrix", desc: "Per-unit price by volume tier, for every supplier of the same part.", status: "Planned" },
   { name: "Consolidation Simulator", desc: "Pool orders across plants to reach better tiers and see the dollars saved.", status: "Planned" },
   { name: "True Cost per Product", desc: "BOM cost plus allocated shared parts and spare/warranty spend.", status: "Planned" },
@@ -44,12 +46,20 @@ export default function Home() {
           {modules.map((m) => (
             <li key={m.name} className="rounded-lg border border-neutral-200 p-4 dark:border-neutral-800">
               <div className="flex items-center justify-between gap-2">
-                <span className="font-medium">{m.name}</span>
+                {m.href ? (
+                  <Link href={m.href} className="font-medium text-violet-700 hover:underline dark:text-violet-300">
+                    {m.name} →
+                  </Link>
+                ) : (
+                  <span className="font-medium">{m.name}</span>
+                )}
                 <span
                   className={`rounded-full px-2 py-0.5 text-xs ${
-                    m.status === "Next up"
-                      ? "bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300"
-                      : "bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-400"
+                    m.status === "Live"
+                      ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+                      : m.status === "Next up"
+                        ? "bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300"
+                        : "bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-400"
                   }`}
                 >
                   {m.status}

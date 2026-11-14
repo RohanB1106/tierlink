@@ -9,7 +9,8 @@ Kearney PERLab Hackathon · Team Double Trouble · Corporate Track 3 (BOM Cost L
 - [x] Synthetic data generator (`scripts/generate_data.py`)
 - [x] Answer key for scoring (`scripts/answer_key.py`)
 - [x] Database schema + loader (Neon Postgres + pgvector, `db/schema.sql`, `scripts/load_db.mjs`)
-- [ ] Ingestion Agent (matching, confidence, review queue)
+- [x] Ingestion Agent: supplier-dialect parser + attribute matcher + SKU-history suggestions (`src/lib/matching`)
+- [x] Review Queue with evidence passports and logged approve/reject decisions (`/review`)
 - [ ] Receipt Ledger, Price-Break Matrix, Consolidation Simulator
 - [ ] True cost per product (incl. spare/warranty)
 - [ ] "Ask the Ledger" chatbot
@@ -57,6 +58,23 @@ No dependencies needed (Python 3.10+ standard library only).
 5. **Near-duplicates:** 14 L-brackets (3 natural groups) and 10 M3 screw variants, the platforming opportunity.
 6. **Vague lines:** 75 invoice lines missing key attributes (e.g. `SCR MACH PAN M3 ZINC PLTD`). These must go to human review, never auto-matched.
 
+## Matching engine
+
+1. **Supplier Dialect Decoder** (`parse.ts`): turns `SCR MACH PAN M3X12 ZINC PLTD 1000PC`, `Machine Screw, Pan Head, M3 x 12mm, Zinc Plated (Box of 1000)` and `07-482913 / screw m3x12 zn pk1000` into the same attributes, and normalizes pack sizes to pieces.
+2. **Attribute matcher** (`match.ts`): compares each line with every engineering part in the category. It auto-matches **only** when exactly one part fits every identity attribute. Anything else goes to review.
+3. **SKU history**: a vague line whose supplier SKU has repeatedly matched one part gets that part as a *suggestion*, still pending human approval.
+
+Results on the demo data (`npm run match:eval`):
+
+| | |
+|---|---|
+| Auto-matched | 2,560 / 2,635 lines (97.2%), 95.4% of spend |
+| Auto-match precision | 100% (2,560 / 2,560) |
+| Review suggestions correct | 100% (67 / 67) |
+| Vague lines wrongly auto-matched | 0 |
+
+Caveat: the parser was written for this synthetic data's 8 supplier formats. Real invoices are messier; an LLM fallback for unrecognized formats is planned.
+
 ## Database
 
 PostgreSQL on **Neon** (free tier, via the Vercel integration) with the `pgvector` extension.
@@ -77,10 +95,11 @@ npm install
 npx vercel link            # link this folder to the Vercel project
 npx vercel env pull .env.local   # downloads DATABASE_URL (git-ignored)
 npm run db:load            # creates tables and loads data/*.csv (re-runnable)
+npm run match              # runs the Ingestion Agent, fills the matches table
 npm run dev
 ```
 
-Other scripts: `npm run data:generate` (rebuild CSVs), `npm run data:answer-key` (print planted savings).
+Other scripts: `npm test` (matcher unit tests), `npm run match:eval` (accuracy vs. answer key), `npm run data:generate` (rebuild CSVs), `npm run data:answer-key` (print planted savings).
 
 ## Stack
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -28,6 +29,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <header className="border-b border-neutral-200 dark:border-neutral-800">
+          <nav className="mx-auto flex max-w-5xl items-center gap-5 px-4 py-3 text-sm sm:px-8">
+            <Link href="/" className="font-semibold tracking-tight">
+              TierLink
+            </Link>
+            <Link href="/review" className="text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100">
+              Review Queue
+            </Link>
+          </nav>
+        </header>
         {children}
       </body>
     </html>
