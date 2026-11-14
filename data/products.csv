@@ -1,0 +1,7 @@
+product_id,name,plant_id,annual_volume
+PD-12,Compact Drill 12V,PEO,40000
+PD-20,Drill/Driver 20V,PEO,60000
+PD-20X,Hammer Drill 20V,CHA,25000
+AG-45,Angle Grinder 4.5in 20V,CHA,18000
+CS-65,Circular Saw 6.5in 20V,FTW,20000
+CS-725,Circular Saw 7.25in Corded,FTW,15000

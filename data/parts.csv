@@ -1,0 +1,83 @@
+part_number,category,description,attributes,used_in
+SCR-M2.5-8-ZN,screw,"Machine screw, pan head, M2.5 x 8mm, zinc plated",thread=M2.5; length_mm=8; finish=ZN; head=pan,PD-12|PD-20|PD-20X
+SCR-M3-8-ZN,screw,"Machine screw, pan head, M3 x 8mm, zinc plated",thread=M3; length_mm=8; finish=ZN; head=pan,CS-65|CS-725|PD-12|PD-20|PD-20X
+SCR-M3-10-ZN,screw,"Machine screw, pan head, M3 x 10mm, zinc plated",thread=M3; length_mm=10; finish=ZN; head=pan,PD-12
+SCR-M3-10-BO,screw,"Machine screw, pan head, M3 x 10mm, black oxide",thread=M3; length_mm=10; finish=BO; head=pan,AG-45
+SCR-M3-12-ZN,screw,"Machine screw, pan head, M3 x 12mm, zinc plated",thread=M3; length_mm=12; finish=ZN; head=pan,PD-20
+SCR-M3-12-BO,screw,"Machine screw, pan head, M3 x 12mm, black oxide",thread=M3; length_mm=12; finish=BO; head=pan,PD-20X
+SCR-M3-12-SS,screw,"Machine screw, pan head, M3 x 12mm, stainless",thread=M3; length_mm=12; finish=SS; head=pan,AG-45
+SCR-M3-14-ZN,screw,"Machine screw, pan head, M3 x 14mm, zinc plated",thread=M3; length_mm=14; finish=ZN; head=pan,PD-20X
+SCR-M3-14-BO,screw,"Machine screw, pan head, M3 x 14mm, black oxide",thread=M3; length_mm=14; finish=BO; head=pan,CS-65
+SCR-M3-14-SS,screw,"Machine screw, pan head, M3 x 14mm, stainless",thread=M3; length_mm=14; finish=SS; head=pan,CS-725
+SCR-M3-16-ZN,screw,"Machine screw, pan head, M3 x 16mm, zinc plated",thread=M3; length_mm=16; finish=ZN; head=pan,AG-45|PD-12|PD-20|PD-20X
+SCR-M4-12-ZN,screw,"Machine screw, pan head, M4 x 12mm, zinc plated",thread=M4; length_mm=12; finish=ZN; head=pan,AG-45
+SCR-M4-16-ZN,screw,"Machine screw, pan head, M4 x 16mm, zinc plated",thread=M4; length_mm=16; finish=ZN; head=pan,CS-65|CS-725
+SCR-M5-16-ZN,screw,"Machine screw, pan head, M5 x 16mm, zinc plated",thread=M5; length_mm=16; finish=ZN; head=pan,PD-12|PD-20|PD-20X
+BLT-M6-16-ZN,bolt,"Hex bolt, M6 x 16mm, grade 8.8, zinc plated",thread=M6; length_mm=16; finish=ZN; grade=8.8,AG-45
+BLT-M8-20-ZN,bolt,"Hex bolt, M8 x 20mm, grade 8.8, zinc plated",thread=M8; length_mm=20; finish=ZN; grade=8.8,CS-65|CS-725
+WSH-M3-ZN,washer,"Flat washer, M3, zinc plated",thread=M3; finish=ZN,PD-12|PD-20|PD-20X
+NUT-M4-ZN,nut,"Hex nut, M4, zinc plated",thread=M4; finish=ZN,CS-65|CS-725
+NUT-M6-ZN,nut,"Hex nut, M6, zinc plated",thread=M6; finish=ZN,AG-45
+WSH-M6-ZN,washer,"Flat washer, M6, zinc plated",thread=M6; finish=ZN,AG-45
+WSH-M8-ZN,washer,"Flat washer, M8, zinc plated",thread=M8; finish=ZN,CS-65|CS-725
+BRG-608ZZ,bearing,Deep groove ball bearing 608ZZ,designation=608ZZ,AG-45|PD-12|PD-20|PD-20X
+BRG-625ZZ,bearing,Deep groove ball bearing 625ZZ,designation=625ZZ,CS-65|CS-725
+BRG-6000-2RS,bearing,Deep groove ball bearing 6000-2RS,designation=6000-2RS,AG-45|PD-20X
+BRG-6001-2RS,bearing,Deep groove ball bearing 6001-2RS,designation=6001-2RS,AG-45
+BRG-6201-2RS,bearing,Deep groove ball bearing 6201-2RS,designation=6201-2RS,CS-65|CS-725
+BRG-699ZZ,bearing,Deep groove ball bearing 699ZZ,designation=699ZZ,PD-12|PD-20|PD-20X
+SPR-C01,spring,"Compression spring, wire 0.8mm, OD 6mm, L 15mm",wire_mm=0.8; od_mm=6; length_mm=15,PD-12|PD-20|PD-20X
+SPR-C02,spring,"Compression spring, wire 1.0mm, OD 8mm, L 20mm",wire_mm=1.0; od_mm=8; length_mm=20,PD-20X
+SPR-C04,spring,"Compression spring, wire 1.2mm, OD 10mm, L 25mm",wire_mm=1.2; od_mm=10; length_mm=25,CS-65|CS-725
+BRK-1001,bracket,"Mounting bracket, L-type, steel, t=1.5mm, w=20mm, hole 4.2mm",thickness_mm=1.5; width_mm=20; hole_mm=4.2; material=CRS,PD-12
+BRK-1002,bracket,"Mounting bracket, L-type, steel, t=1.6mm, w=20mm, hole 4.2mm",thickness_mm=1.6; width_mm=20; hole_mm=4.2; material=CRS,PD-20
+BRK-1003,bracket,"Mounting bracket, L-type, steel, t=1.5mm, w=21mm, hole 4.3mm",thickness_mm=1.5; width_mm=21; hole_mm=4.3; material=CRS,PD-20X
+BRK-1004,bracket,"Mounting bracket, L-type, steel, t=1.5mm, w=20mm, hole 4.5mm",thickness_mm=1.5; width_mm=20; hole_mm=4.5; material=CRS,AG-45
+BRK-1005,bracket,"Mounting bracket, L-type, steel, t=1.6mm, w=21mm, hole 4.2mm",thickness_mm=1.6; width_mm=21; hole_mm=4.2; material=CRS,CS-65
+BRK-1006,bracket,"Mounting bracket, L-type, steel, t=2.0mm, w=25mm, hole 5.2mm",thickness_mm=2.0; width_mm=25; hole_mm=5.2; material=CRS,PD-20
+BRK-1007,bracket,"Mounting bracket, L-type, steel, t=2.0mm, w=25mm, hole 5.5mm",thickness_mm=2.0; width_mm=25; hole_mm=5.5; material=CRS,PD-20X
+BRK-1008,bracket,"Mounting bracket, L-type, steel, t=2.1mm, w=25mm, hole 5.2mm",thickness_mm=2.1; width_mm=25; hole_mm=5.2; material=CRS,AG-45
+BRK-1009,bracket,"Mounting bracket, L-type, steel, t=2.0mm, w=26mm, hole 5.2mm",thickness_mm=2.0; width_mm=26; hole_mm=5.2; material=CRS,CS-65
+BRK-1010,bracket,"Mounting bracket, L-type, steel, t=2.0mm, w=24mm, hole 5.3mm",thickness_mm=2.0; width_mm=24; hole_mm=5.3; material=CRS,CS-725
+BRK-1011,bracket,"Mounting bracket, L-type, steel, t=3.0mm, w=32mm, hole 6.4mm",thickness_mm=3.0; width_mm=32; hole_mm=6.4; material=CRS,CS-65
+BRK-1012,bracket,"Mounting bracket, L-type, steel, t=3.0mm, w=30mm, hole 6.4mm",thickness_mm=3.0; width_mm=30; hole_mm=6.4; material=CRS,CS-725
+BRK-1013,bracket,"Mounting bracket, L-type, steel, t=3.2mm, w=32mm, hole 6.5mm",thickness_mm=3.2; width_mm=32; hole_mm=6.5; material=CRS,CS-725
+BRK-1014,bracket,"Mounting bracket, L-type, steel, t=3.0mm, w=32mm, hole 6.6mm",thickness_mm=3.0; width_mm=32; hole_mm=6.6; material=CRS,CS-725
+GR-M0.5-T12,gear,"Spur gear, module 0.5, 12T, sintered steel",module=0.5; teeth=12,PD-12
+GR-M0.5-T36,gear,"Spur gear, module 0.5, 36T, sintered steel",module=0.5; teeth=36,PD-12
+GR-M0.6-T14,gear,"Spur gear, module 0.6, 14T, sintered steel",module=0.6; teeth=14,PD-20|PD-20X
+GR-M0.6-T42,gear,"Spur gear, module 0.6, 42T, sintered steel",module=0.6; teeth=42,PD-20|PD-20X
+GR-M0.8-T18,gear,"Spur gear, module 0.8, 18T, sintered steel",module=0.8; teeth=18,AG-45|PD-20X
+GR-M0.8-T54,gear,"Spur gear, module 0.8, 54T, sintered steel",module=0.8; teeth=54,AG-45
+MTR-BL-20V-18K,motor,"BLDC motor 20V, 18,000 rpm",type=BLDC; volts=20; rpm=18000,PD-20|PD-20X
+MTR-BL-20V-10K,motor,"BLDC motor 20V, 10,000 rpm",type=BLDC; volts=20; rpm=10000,AG-45|CS-65
+MTR-BR-12V-15K,motor,"Brushed DC motor 12V, 15,000 rpm",type=brushed; volts=12; rpm=15000,PD-12
+MTR-UN-120V-5K,motor,"Universal motor 120V AC, 5,200 rpm",type=universal; volts=120; rpm=5200,CS-725
+BAT-12V-2.0,battery,Li-ion battery pack 12V 2.0Ah,volts=12; ah=2.0,PD-12
+BAT-20V-2.0,battery,Li-ion battery pack 20V 2.0Ah,volts=20; ah=2.0,PD-20
+BAT-20V-4.0,battery,Li-ion battery pack 20V 4.0Ah,volts=20; ah=4.0,AG-45|CS-65|PD-20X
+SW-TRG-VS-12V,switch,"Trigger switch, variable speed, 12V DC",type=trigger; volts=12,PD-12
+SW-TRG-VS-20V,switch,"Trigger switch, variable speed, 20V DC",type=trigger; volts=20,CS-65|PD-20|PD-20X
+SW-PDL-20V,switch,"Paddle switch, 20V DC",type=paddle; volts=20,AG-45
+SW-TRG-120V,switch,"Trigger switch, 120V AC, 15A",type=trigger; volts=120,CS-725
+PCB-MC-20V,pcb,Motor controller board 20V BLDC,volts=20,AG-45|CS-65|PD-20|PD-20X
+PCB-MC-12V,pcb,Motor controller board 12V,volts=12,PD-12
+CRD-14AWG-8FT,cord,"Power cord 14AWG, 8ft, 3-prong",awg=14; length_ft=8,CS-725
+HSG-PD-12,housing,"Housing set, PD-12, glass-filled nylon",product=PD-12,PD-12
+GRP-PD-12,grip,"Overmold grip, PD-12, TPE",product=PD-12,PD-12
+HSG-PD-20,housing,"Housing set, PD-20, glass-filled nylon",product=PD-20,PD-20
+GRP-PD-20,grip,"Overmold grip, PD-20, TPE",product=PD-20,PD-20
+HSG-PD-20X,housing,"Housing set, PD-20X, glass-filled nylon",product=PD-20X,PD-20X
+GRP-PD-20X,grip,"Overmold grip, PD-20X, TPE",product=PD-20X,PD-20X
+HSG-AG-45,housing,"Housing set, AG-45, glass-filled nylon",product=AG-45,AG-45
+GRP-AG-45,grip,"Overmold grip, AG-45, TPE",product=AG-45,AG-45
+HSG-CS-65,housing,"Housing set, CS-65, glass-filled nylon",product=CS-65,CS-65
+GRP-CS-65,grip,"Overmold grip, CS-65, TPE",product=CS-65,CS-65
+HSG-CS-725,housing,"Housing set, CS-725, glass-filled nylon",product=CS-725,CS-725
+GRP-CS-725,grip,"Overmold grip, CS-725, TPE",product=CS-725,CS-725
+CHK-KL-3/8,chuck,Keyless chuck 3/8in,size_in=0.375,PD-12
+CHK-KL-1/2,chuck,Keyless chuck 1/2in,size_in=0.5,PD-20|PD-20X
+BLD-6.5-24T,blade,"Circular saw blade 6-1/2in, 24T carbide",dia_in=6.5; teeth=24,CS-65
+BLD-7.25-24T,blade,"Circular saw blade 7-1/4in, 24T carbide",dia_in=7.25; teeth=24,CS-725
+GRD-AG-45,guard,"Wheel guard 4.5in, steel",dia_in=4.5,AG-45
+GRD-CS-LOWER,guard,"Lower blade guard, circular saw",,CS-65|CS-725

@@ -1,0 +1,9 @@
+supplier_id,name,style
+S01,Midwest Fastener Supply,caps_abbrev
+S02,Heartland Industrial,verbose
+S03,Great Lakes Bearing Co,sku_first
+S04,Apex Motion Components,verbose
+S05,Prairie Electric Supply,caps_abbrev
+S06,Northline Plastics,sku_first
+S07,Summit Metalworks,verbose
+S08,Delta Power Cells,caps_abbrev

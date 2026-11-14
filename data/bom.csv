@@ -1,0 +1,125 @@
+product_id,assembly,part_number,qty_per
+PD-12,Motor Assy,MTR-BR-12V-15K,1
+PD-12,Motor Assy,BRG-608ZZ,1
+PD-12,Motor Assy,BRG-699ZZ,1
+PD-12,Motor Assy,PCB-MC-12V,1
+PD-12,Motor Assy,SCR-M3-10-ZN,4
+PD-12,Gearbox Assy,GR-M0.5-T12,1
+PD-12,Gearbox Assy,GR-M0.5-T36,1
+PD-12,Gearbox Assy,SPR-C01,1
+PD-12,Gearbox Assy,SCR-M2.5-8-ZN,3
+PD-12,Gearbox Assy,WSH-M3-ZN,2
+PD-12,Housing Assy,HSG-PD-12,1
+PD-12,Housing Assy,GRP-PD-12,1
+PD-12,Housing Assy,SCR-M3-16-ZN,8
+PD-12,Housing Assy,BRK-1001,1
+PD-12,Electrical Assy,SW-TRG-VS-12V,1
+PD-12,Electrical Assy,BAT-12V-2.0,1
+PD-12,Electrical Assy,SCR-M3-8-ZN,2
+PD-12,Chuck Assy,CHK-KL-3/8,1
+PD-12,Chuck Assy,SCR-M5-16-ZN,1
+PD-20,Motor Assy,MTR-BL-20V-18K,1
+PD-20,Motor Assy,BRG-608ZZ,1
+PD-20,Motor Assy,BRG-699ZZ,1
+PD-20,Motor Assy,PCB-MC-20V,1
+PD-20,Motor Assy,SCR-M3-12-ZN,4
+PD-20,Gearbox Assy,GR-M0.6-T14,1
+PD-20,Gearbox Assy,GR-M0.6-T42,1
+PD-20,Gearbox Assy,SPR-C01,1
+PD-20,Gearbox Assy,SCR-M2.5-8-ZN,3
+PD-20,Gearbox Assy,WSH-M3-ZN,2
+PD-20,Housing Assy,HSG-PD-20,1
+PD-20,Housing Assy,GRP-PD-20,1
+PD-20,Housing Assy,SCR-M3-16-ZN,8
+PD-20,Housing Assy,BRK-1002,1
+PD-20,Housing Assy,BRK-1006,1
+PD-20,Electrical Assy,SW-TRG-VS-20V,1
+PD-20,Electrical Assy,BAT-20V-2.0,1
+PD-20,Electrical Assy,SCR-M3-8-ZN,2
+PD-20,Chuck Assy,CHK-KL-1/2,1
+PD-20,Chuck Assy,SCR-M5-16-ZN,1
+PD-20X,Motor Assy,MTR-BL-20V-18K,1
+PD-20X,Motor Assy,BRG-608ZZ,1
+PD-20X,Motor Assy,BRG-699ZZ,1
+PD-20X,Motor Assy,PCB-MC-20V,1
+PD-20X,Motor Assy,SCR-M3-12-BO,4
+PD-20X,Gearbox Assy,GR-M0.6-T14,1
+PD-20X,Gearbox Assy,GR-M0.6-T42,1
+PD-20X,Gearbox Assy,GR-M0.8-T18,1
+PD-20X,Gearbox Assy,SPR-C01,1
+PD-20X,Gearbox Assy,SCR-M2.5-8-ZN,3
+PD-20X,Gearbox Assy,WSH-M3-ZN,2
+PD-20X,Housing Assy,HSG-PD-20X,1
+PD-20X,Housing Assy,GRP-PD-20X,1
+PD-20X,Housing Assy,SCR-M3-16-ZN,8
+PD-20X,Housing Assy,BRK-1003,1
+PD-20X,Housing Assy,BRK-1007,1
+PD-20X,Electrical Assy,SW-TRG-VS-20V,1
+PD-20X,Electrical Assy,BAT-20V-4.0,1
+PD-20X,Electrical Assy,SCR-M3-8-ZN,2
+PD-20X,Chuck Assy,CHK-KL-1/2,1
+PD-20X,Chuck Assy,SCR-M5-16-ZN,1
+PD-20X,Hammer Mech,SPR-C02,1
+PD-20X,Hammer Mech,BRG-6000-2RS,1
+PD-20X,Hammer Mech,SCR-M3-14-ZN,2
+AG-45,Motor Assy,MTR-BL-20V-10K,1
+AG-45,Motor Assy,BRG-608ZZ,1
+AG-45,Motor Assy,BRG-6000-2RS,1
+AG-45,Motor Assy,PCB-MC-20V,1
+AG-45,Motor Assy,SCR-M3-12-SS,4
+AG-45,Gearbox Assy,GR-M0.8-T18,1
+AG-45,Gearbox Assy,GR-M0.8-T54,1
+AG-45,Gearbox Assy,BRG-6001-2RS,1
+AG-45,Gearbox Assy,SCR-M4-12-ZN,4
+AG-45,Housing Assy,HSG-AG-45,1
+AG-45,Housing Assy,GRP-AG-45,1
+AG-45,Housing Assy,SCR-M3-16-ZN,6
+AG-45,Housing Assy,BRK-1004,1
+AG-45,Housing Assy,BRK-1008,1
+AG-45,Electrical Assy,SW-PDL-20V,1
+AG-45,Electrical Assy,BAT-20V-4.0,1
+AG-45,Electrical Assy,SCR-M3-10-BO,2
+AG-45,Guard Assy,GRD-AG-45,1
+AG-45,Guard Assy,BLT-M6-16-ZN,1
+AG-45,Guard Assy,NUT-M6-ZN,1
+AG-45,Guard Assy,WSH-M6-ZN,1
+CS-65,Motor Assy,MTR-BL-20V-10K,1
+CS-65,Motor Assy,BRG-6201-2RS,1
+CS-65,Motor Assy,BRG-625ZZ,1
+CS-65,Motor Assy,SCR-M3-14-BO,4
+CS-65,Motor Assy,PCB-MC-20V,1
+CS-65,Blade Assy,BLD-6.5-24T,1
+CS-65,Blade Assy,BLT-M8-20-ZN,1
+CS-65,Blade Assy,WSH-M8-ZN,2
+CS-65,Blade Assy,GRD-CS-LOWER,1
+CS-65,Blade Assy,SPR-C04,1
+CS-65,Base & Housing,HSG-CS-65,1
+CS-65,Base & Housing,GRP-CS-65,1
+CS-65,Base & Housing,SCR-M4-16-ZN,6
+CS-65,Base & Housing,NUT-M4-ZN,6
+CS-65,Base & Housing,BRK-1005,1
+CS-65,Base & Housing,BRK-1009,1
+CS-65,Base & Housing,BRK-1011,1
+CS-65,Electrical Assy,SW-TRG-VS-20V,1
+CS-65,Electrical Assy,SCR-M3-8-ZN,2
+CS-65,Electrical Assy,BAT-20V-4.0,1
+CS-725,Motor Assy,MTR-UN-120V-5K,1
+CS-725,Motor Assy,BRG-6201-2RS,1
+CS-725,Motor Assy,BRG-625ZZ,1
+CS-725,Motor Assy,SCR-M3-14-SS,4
+CS-725,Blade Assy,BLD-7.25-24T,1
+CS-725,Blade Assy,BLT-M8-20-ZN,1
+CS-725,Blade Assy,WSH-M8-ZN,2
+CS-725,Blade Assy,GRD-CS-LOWER,1
+CS-725,Blade Assy,SPR-C04,1
+CS-725,Base & Housing,HSG-CS-725,1
+CS-725,Base & Housing,GRP-CS-725,1
+CS-725,Base & Housing,SCR-M4-16-ZN,6
+CS-725,Base & Housing,NUT-M4-ZN,6
+CS-725,Base & Housing,BRK-1010,1
+CS-725,Base & Housing,BRK-1012,1
+CS-725,Base & Housing,BRK-1013,1
+CS-725,Base & Housing,BRK-1014,1
+CS-725,Electrical Assy,SW-TRG-120V,1
+CS-725,Electrical Assy,SCR-M3-8-ZN,2
+CS-725,Electrical Assy,CRD-14AWG-8FT,1
