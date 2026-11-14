@@ -39,7 +39,25 @@ for (let i = 0; i < rows.length; i += 500) {
       status = excluded.status, method = excluded.method, evidence = excluded.evidence, updated_at = now()`;
 }
 
+// Decode supplier price lists too, so SKUs that were quoted but never bought are still comparable.
+const catalog = (await sql`
+  select distinct supplier_id, supplier_sku, supplier_description as item_description
+  from price_breaks`) as unknown as { supplier_id: string; supplier_sku: string; item_description: string }[];
+const catalogResults = matchAll(
+  catalog.map((c) => ({ ...c, line_id: `${c.supplier_id}|${c.supplier_sku}`, qty: 1, price_per_uom: 0 })),
+  parts,
+);
+const catalogRows = catalogResults
+  .filter((r) => r.status === "auto" && r.part_number)
+  .map((r) => {
+    const [supplier_id, supplier_sku] = r.line_id.split("|");
+    return { supplier_id, supplier_sku, part_number: r.part_number!, confidence: r.confidence };
+  });
+await sql`delete from catalog_matches`;
+if (catalogRows.length) await sql`insert into catalog_matches ${sql(catalogRows)}`;
+
 const count = (f: (r: (typeof results)[number]) => boolean) => results.filter(f).length;
+console.log(`Price lists: ${catalogRows.length}/${catalog.length} supplier SKUs decoded`);
 console.log(`Matched ${lines.length.toLocaleString()} lines in ${ms.toFixed(0)} ms (${decided.size} human decisions kept)`);
 console.log(`  auto-matched           ${count((r) => r.status === "auto")}`);
 console.log(`  review: suggested      ${count((r) => r.status === "pending" && !!r.part_number)}`);

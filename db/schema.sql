@@ -3,7 +3,8 @@
 
 create extension if not exists vector;
 
-drop table if exists match_decisions, matches, purchases, price_breaks, bom, parts, products, suppliers, plants cascade;
+drop view if exists sku_parts;
+drop table if exists catalog_matches, match_decisions, matches, purchases, price_breaks, bom, parts, products, suppliers, plants cascade;
 
 -- ---------------------------------------------------------------- reference data
 create table plants (
@@ -93,6 +94,30 @@ create table matches (
 );
 create index on matches (status);
 create index on matches (part_number);
+
+-- Price-list (catalog) SKUs decoded by the same matcher. Covers SKUs that were quoted but never bought.
+create table catalog_matches (
+  supplier_id  text not null references suppliers,
+  supplier_sku text not null,
+  part_number  text not null references parts,
+  confidence   numeric(4,3) not null,
+  primary key (supplier_id, supplier_sku)
+);
+
+-- Which engineering part each supplier SKU is: learned from matched invoices first,
+-- then from the decoded price list. Lets supplier price lists be read per part.
+create or replace view sku_parts as
+select distinct on (supplier_id, supplier_sku) supplier_id, supplier_sku, part_number, source, evidence_lines
+from (
+  select p.supplier_id, p.supplier_sku, m.part_number, 'invoices' as source, count(*) as evidence_lines, 1 as rank
+  from purchases p
+  join matches m using (line_id)
+  where m.status in ('auto', 'approved') and m.part_number is not null
+  group by p.supplier_id, p.supplier_sku, m.part_number
+  union all
+  select supplier_id, supplier_sku, part_number, 'catalog', 0, 2 from catalog_matches
+) s
+order by supplier_id, supplier_sku, rank, evidence_lines desc;
 
 -- Every human decision is logged; nothing is overwritten silently.
 create table match_decisions (

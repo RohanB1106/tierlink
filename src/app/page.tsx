@@ -3,10 +3,10 @@ import Link from "next/link";
 const modules: { name: string; desc: string; status: string; href?: string }[] = [
   { name: "Ingestion Agent", desc: "Matches messy supplier invoice lines to engineering part numbers, with a confidence score. 97% auto-matched, 100% precision on the demo data.", status: "Live" },
   { name: "Review Queue", desc: "Uncertain matches go to a human, with the evidence, before any saving is claimed.", status: "Live", href: "/review" },
-  { name: "Receipt Ledger", desc: "Every purchase line with supplier, date, quantity and cost, with the original wording kept.", status: "Next up" },
-  { name: "Price-Break Matrix", desc: "Per-unit price by volume tier, for every supplier of the same part.", status: "Planned" },
-  { name: "Consolidation Simulator", desc: "Pool orders across plants to reach better tiers and see the dollars saved.", status: "Planned" },
-  { name: "True Cost per Product", desc: "BOM cost plus allocated shared parts and spare/warranty spend.", status: "Planned" },
+  { name: "Consolidation Simulator", desc: "Pool orders across plants to reach better tiers. ~$837K/yr (9%) on the demo data.", status: "Live", href: "/consolidation" },
+  { name: "Price-Break Matrix", desc: "Per-unit price by volume tier, for every supplier of the same part.", status: "Live", href: "/parts/PCB-MC-20V" },
+  { name: "Receipt Ledger", desc: "Every purchase of a part, incl. spare/warranty, with the supplier's original wording.", status: "Live", href: "/parts" },
+  { name: "True Cost per Product", desc: "BOM cost plus allocated shared parts and spare/warranty spend.", status: "Next up" },
   { name: "Platform View", desc: "Near-duplicate parts clustered, with a 3D view of the common core and add-on modules.", status: "Planned" },
   { name: "Ask the Ledger", desc: "Plain-English questions over parts, suppliers and spend.", status: "Planned" },
 ];
@@ -14,7 +14,7 @@ const modules: { name: string; desc: string; status: string; href?: string }[] =
 const stats = [
   { label: "Spend analyzed", value: "$19.9M" },
   { label: "Purchase lines", value: "2,635" },
-  { label: "Planted pooling savings", value: "~$2.0M" },
+  { label: "Pooling savings / yr", value: "~$837K" },
   { label: "Lines needing review", value: "75" },
 ];
 

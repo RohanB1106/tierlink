@@ -34,9 +34,15 @@ export default function RootLayout({
             <Link href="/" className="font-semibold tracking-tight">
               TierLink
             </Link>
-            <Link href="/review" className="text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100">
-              Review Queue
-            </Link>
+            {[
+              ["/review", "Review Queue"],
+              ["/consolidation", "Consolidation"],
+              ["/parts", "Parts"],
+            ].map(([href, label]) => (
+              <Link key={href} href={href} className="text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100">
+                {label}
+              </Link>
+            ))}
           </nav>
         </header>
         {children}

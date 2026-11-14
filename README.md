@@ -11,7 +11,8 @@ Kearney PERLab Hackathon · Team Double Trouble · Corporate Track 3 (BOM Cost L
 - [x] Database schema + loader (Neon Postgres + pgvector, `db/schema.sql`, `scripts/load_db.mjs`)
 - [x] Ingestion Agent: supplier-dialect parser + attribute matcher + SKU-history suggestions (`src/lib/matching`)
 - [x] Review Queue with evidence passports and logged approve/reject decisions (`/review`)
-- [ ] Receipt Ledger, Price-Break Matrix, Consolidation Simulator
+- [x] Consolidation Simulator (`/consolidation`), Price-Break Matrix and Receipt Ledger (`/parts/[part]`)
+- [x] Price lists decoded too (`catalog_matches`), so quoted-but-never-bought SKUs can be compared
 - [ ] True cost per product (incl. spare/warranty)
 - [ ] "Ask the Ledger" chatbot
 - [ ] Platforming clusters + 3D product-family viewer
@@ -74,6 +75,20 @@ Results on the demo data (`npm run match:eval`):
 | Vague lines wrongly auto-matched | 0 |
 
 Caveat: the parser was written for this synthetic data's 8 supplier formats. Real invoices are messier; an LLM fallback for unrecognized formats is planned.
+
+## Consolidation Simulator
+
+Each plant orders on its own, so each lands in a low volume tier. The simulator pools monthly demand across selected plants and prices it at the best tier reachable, either with a current supplier or any supplier that quotes the part (`src/lib/pricing/consolidation.ts`).
+
+To keep the claim defensible:
+- Demand = the last 12 months of **confidently matched** production purchases (pending review lines are excluded).
+- Today's orders and the pooled orders are priced from the **same supplier price lists**, and that % difference is applied to actual spend.
+
+| Demo data, all 3 plants | Savings / yr |
+|---|---|
+| Pool orders, keep a current supplier | ~$743K (8.0%) |
+| Pool orders + best-priced supplier | ~$837K (9.0%) |
+| Peoria alone (no one to pool with) | $0 from pooling |
 
 ## Database
 
