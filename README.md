@@ -13,6 +13,7 @@ Kearney PERLab Hackathon · Team Double Trouble · Corporate Track 3 (BOM Cost L
 - [x] Review Queue with evidence passports and logged approve/reject decisions (`/review`)
 - [x] Consolidation Simulator (`/consolidation`), Price-Break Matrix and Receipt Ledger (`/parts/[part]`)
 - [x] Price lists decoded too (`catalog_matches`), so quoted-but-never-bought SKUs can be compared
+- [x] True Cost per Product (`/products`, `/products/[id]`)
 - [ ] True cost per product (incl. spare/warranty)
 - [ ] "Ask the Ledger" chatbot
 - [ ] Platforming clusters + 3D product-family viewer
@@ -89,6 +90,17 @@ To keep the claim defensible:
 | Pool orders, keep a current supplier | ~$743K (8.0%) |
 | Pool orders + best-priced supplier | ~$837K (9.0%) |
 | Peoria alone (no one to pool with) | $0 from pooling |
+
+## True Cost per Product
+
+Per unit of each product, last 12 months (`src/lib/pricing/true-cost.ts`):
+
+- **Quoted BOM**: BOM qty × each part's price-list price at the plant's usual order size.
+- **Actual material**: BOM qty × the average price per piece that plant actually paid (confident matches only).
+- **Spare & warranty**: service-center spend on each part, split across every product that uses it by consumption (annual volume × qty per unit).
+- **After pooling**: true cost minus the part's consolidation saving, split the same way.
+
+On the demo data every product really costs **5–8% more than quoted** (~$562K/yr in total), spare/warranty adds ~$154K/yr, and the modeled material cost reproduces actual production spend within 0.4%.
 
 ## Database
 

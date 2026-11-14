@@ -6,8 +6,8 @@ const modules: { name: string; desc: string; status: string; href?: string }[] =
   { name: "Consolidation Simulator", desc: "Pool orders across plants to reach better tiers. ~$837K/yr (9%) on the demo data.", status: "Live", href: "/consolidation" },
   { name: "Price-Break Matrix", desc: "Per-unit price by volume tier, for every supplier of the same part.", status: "Live", href: "/parts/PCB-MC-20V" },
   { name: "Receipt Ledger", desc: "Every purchase of a part, incl. spare/warranty, with the supplier's original wording.", status: "Live", href: "/parts" },
-  { name: "True Cost per Product", desc: "BOM cost plus allocated shared parts and spare/warranty spend.", status: "Next up" },
-  { name: "Platform View", desc: "Near-duplicate parts clustered, with a 3D view of the common core and add-on modules.", status: "Planned" },
+  { name: "True Cost per Product", desc: "Real cost vs. quoted BOM, incl. shared parts and spare/warranty. Products cost 5-8% more than quoted.", status: "Live", href: "/products" },
+  { name: "Platform View", desc: "Near-duplicate parts clustered, with a 3D view of the common core and add-on modules.", status: "Next up" },
   { name: "Ask the Ledger", desc: "Plain-English questions over parts, suppliers and spend.", status: "Planned" },
 ];
 

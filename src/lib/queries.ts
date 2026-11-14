@@ -1,6 +1,7 @@
 import "server-only";
 import { sql } from "@/lib/db";
-import type { PartDemand, Tier } from "@/lib/pricing/consolidation";
+import { simulate, type PartDemand, type Tier } from "@/lib/pricing/consolidation";
+import { trueCost, type BomLine, type Product } from "@/lib/pricing/true-cost";
 
 /** Only confident matches count: auto-matched or human-approved. */
 const CONFIDENT = ["auto", "approved"];
@@ -145,4 +146,37 @@ export async function getPart(partNumber: string) {
     where b.part_number = ${partNumber}
     order by b.product_id`;
   return { part, receipts, bom };
+}
+
+/** True cost per product for the last 12 months, plus spend not yet allocated (pending review). */
+export async function getProductCosts() {
+  const { start, months } = await getWindow();
+  const [{ parts }, products, bom, service, [unallocated]] = await Promise.all([
+    getDemand(),
+    sql`select product_id, name, plant_id, annual_volume from products order by product_id` as unknown as Promise<Product[]>,
+    sql`select product_id, part_number, qty_per::float8 as qty_per from bom` as unknown as Promise<BomLine[]>,
+    sql`
+      select m.part_number, sum(p.extended_amount)::float8 as spend
+      from purchases p join matches m using (line_id)
+      where p.order_type <> 'PRODUCTION' and m.status in ${sql(CONFIDENT)} and p.po_date >= ${start}
+      group by 1`,
+    sql`
+      select coalesce(sum(p.extended_amount), 0)::float8 as spend, count(*)::int as lines
+      from purchases p join matches m using (line_id)
+      where m.status not in ${sql(CONFIDENT)} and p.po_date >= ${start}`,
+  ]);
+  const plants = [...new Set(parts.flatMap((p) => Object.keys(p.plants)))];
+  const pooling = simulate(parts, { plants, allowSupplierSwitch: true });
+  const costs = trueCost(
+    products,
+    bom,
+    parts,
+    Object.fromEntries(service.map((r) => [r.part_number as string, r.spend as number])),
+    Object.fromEntries(pooling.results.map((r) => [r.part_number, r.savings])),
+  );
+  return {
+    costs,
+    window: `${months[0]} to ${months[months.length - 1]}`,
+    unallocated: unallocated as { spend: number; lines: number },
+  };
 }

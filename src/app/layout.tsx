@@ -30,13 +30,14 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <header className="border-b border-neutral-200 dark:border-neutral-800">
-          <nav className="mx-auto flex max-w-5xl items-center gap-5 px-4 py-3 text-sm sm:px-8">
+          <nav className="mx-auto flex max-w-5xl flex-wrap items-center gap-x-5 gap-y-1 px-4 py-3 text-sm sm:px-8">
             <Link href="/" className="font-semibold tracking-tight">
               TierLink
             </Link>
             {[
               ["/review", "Review Queue"],
               ["/consolidation", "Consolidation"],
+              ["/products", "Products"],
               ["/parts", "Parts"],
             ].map(([href, label]) => (
               <Link key={href} href={href} className="text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100">
