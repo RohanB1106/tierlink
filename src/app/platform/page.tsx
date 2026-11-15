@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getPlatformData } from "@/lib/queries";
 import { money, moneyShort, num, partHref, pct } from "@/lib/format";
+import { PageHeader } from "@/components/ui";
 import { ViewerLoader } from "./viewer-loader";
 
 export const dynamic = "force-dynamic";
@@ -29,13 +30,12 @@ export default async function PlatformPage() {
   );
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-10 sm:px-8">
-      <h1 className="text-3xl font-semibold tracking-tight">Platforming</h1>
-      <p className="mt-2 max-w-3xl text-neutral-600 dark:text-neutral-300">
-        Engineering created separate part numbers for parts that are almost the same. Standardizing them cuts complexity
-        and pools volume onto one part. The 3D view shows which assemblies already form a shared core and which are
-        product-specific modules.
-      </p>
+    <main className="mx-auto max-w-6xl px-4 py-10 sm:px-8">
+      <PageHeader
+        kicker="Platforming"
+        title="A shared core, fewer part numbers"
+        description="Engineering created separate part numbers for parts that are almost the same. Standardizing them cuts complexity and pools volume onto one part. The 3D view shows which assemblies already form a shared core and which are product-specific modules."
+      />
 
       <section className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         <Stat label="Part numbers in BOMs" value={`${used.length} → ${used.length - removed}`} note={`${removed} near-duplicates removable`} accent />

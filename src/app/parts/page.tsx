@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getPartList } from "@/lib/queries";
 import { money, partHref } from "@/lib/format";
+import { PageHeader } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Parts · TierLink" };
@@ -9,12 +10,12 @@ export const metadata: Metadata = { title: "Parts · TierLink" };
 export default async function PartsPage() {
   const parts = await getPartList();
   return (
-    <main className="mx-auto max-w-5xl px-4 py-10 sm:px-8">
-      <h1 className="text-3xl font-semibold tracking-tight">Parts</h1>
-      <p className="mt-2 max-w-2xl text-neutral-600 dark:text-neutral-300">
-        Every engineering part, with the spend now linked to it. Open a part to see its price breaks by supplier and every
-        receipt.
-      </p>
+    <main className="mx-auto max-w-6xl px-4 py-10 sm:px-8">
+      <PageHeader
+        kicker="Parts"
+        title="Every part, with its spend linked"
+        description="The engineering part master with the purchases now tied to each part. Open a part for its price breaks by supplier and every receipt."
+      />
       <div className="mt-6 overflow-x-auto">
         <table className="w-full min-w-[640px] text-left text-sm">
           <thead className="border-b border-neutral-200 text-neutral-500 dark:border-neutral-800">

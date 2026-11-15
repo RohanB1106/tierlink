@@ -3,7 +3,7 @@ import type Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import { sql } from "@/lib/db";
 import { simulate } from "@/lib/pricing/consolidation";
-import { getDemand, getPart, getPlatformData, getProductCosts, getSupplierNames, getTiers } from "@/lib/queries";
+import { getDemand, getMarketCheck, getPart, getPlatformData, getProductCosts, getSupplierNames, getTiers } from "@/lib/queries";
 import { checkSql } from "@/lib/chat/sql-guard";
 
 // Tools the "Ask the Ledger" assistant can call. All are read-only.
@@ -19,8 +19,27 @@ const Consolidation = z.object({
 const ProductCosts = z.object({ product_id: z.string().optional() });
 const Part = z.object({ part_number: z.string().min(1) });
 const Empty = z.object({});
+const Market = z.object({
+  status: z.enum(["above", "at", "below", "all"]).optional(),
+  item: z.string().optional(),
+});
 
 export const TOOLS: Anthropic.Beta.BetaTool[] = [
+  {
+    name: "get_market_price_check",
+    description:
+      "Compare what we pay for benchmarked raw materials (e.g. aluminum per oz, steel per lb) and high-spend parts with the market price range, and list cheaper alternative vendors with annual savings. Same method as the /market page.",
+    input_schema: {
+      type: "object",
+      properties: {
+        status: { type: "string", enum: ["above", "at", "below", "all"], description: "Filter by market status. Default all." },
+        item: { type: "string", description: "Optional: a material name/key or part number to look up." },
+      },
+      additionalProperties: false,
+    },
+    strict: true,
+    eager_input_streaming: true,
+  },
   {
     name: "run_sql",
     description:
@@ -217,6 +236,51 @@ export async function runTool(name: string, input: unknown): Promise<Result> {
               unit_price: round(r.unit_price, 4),
               amount: round(r.amount),
               type: r.order_type,
+            })),
+          },
+        };
+      }
+      case "get_market_price_check": {
+        const p = Market.safeParse(input ?? {});
+        if (!p.success) return { ok: false, error: "INVALID_INPUT" };
+        const m = await getMarketCheck();
+        const q = p.data.item?.toLowerCase();
+        const rows = m.results.filter(
+          (r) =>
+            (!p.data.status || p.data.status === "all" || r.status === p.data.status) &&
+            (!q || r.item_key.toLowerCase().includes(q) || r.name.toLowerCase().includes(q)),
+        );
+        return {
+          ok: true,
+          content: {
+            items_above_market: m.above,
+            annual_paid_above_median: round(m.overpay, 0),
+            annual_savings_best_alternatives: round(m.altSavings, 0),
+            note: "Our price = last 3 months weighted average; quantity = last 12 months. Benchmarks and quotes are illustrative demo data.",
+            items: rows.map((r) => ({
+              item: r.item_key,
+              name: r.name,
+              type: r.item_type,
+              unit: r.unit,
+              our_price: round(r.ourPrice, 4),
+              current_suppliers: r.suppliers,
+              market_low: r.low,
+              market_median: r.median,
+              market_high: r.high,
+              status: r.status,
+              vs_median_pct: round(r.vsMedian * 100, 1),
+              annual_qty: round(r.annualQty, 0),
+              annual_overpay: round(r.annualOverpay, 0),
+              alternatives: r.alternatives.map((a) => ({
+                vendor: a.vendor,
+                unit_price: a.unit_price,
+                min_order: a.min_qty,
+                lead_time_days: a.lead_time_days,
+                terms: a.terms,
+                annual_savings: round(a.annualSavings, 0),
+                fits_our_monthly_order: a.fitsMonthlyOrder,
+              })),
+              best_alternative: r.best?.vendor ?? null,
             })),
           },
         };

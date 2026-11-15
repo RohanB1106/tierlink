@@ -20,7 +20,7 @@ export default async function ProductCostPage({ params }: Params) {
   const gap = p.trueCost - p.quoted;
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-10 sm:px-8">
+    <main className="mx-auto max-w-6xl px-4 py-10 sm:px-8">
       <Link href="/products" className="text-sm text-neutral-500 hover:underline">
         ← All products
       </Link>

@@ -4,7 +4,7 @@
 create extension if not exists vector;
 
 drop view if exists sku_parts;
-drop table if exists catalog_matches, match_decisions, matches, purchases, price_breaks, bom, parts, products, suppliers, plants cascade;
+drop table if exists vendor_quotes, market_benchmarks, material_purchases, materials, catalog_matches, match_decisions, matches, purchases, price_breaks, bom, parts, products, suppliers, plants cascade;
 
 -- ---------------------------------------------------------------- reference data
 create table plants (
@@ -129,3 +129,50 @@ create table match_decisions (
   actor       text not null default 'reviewer',
   decided_at  timestamptz not null default now()
 );
+
+-- ---------------------------------------------------------------- market price check
+-- Raw materials bought directly by the plants (kept apart from part purchases).
+create table materials (
+  material_key text primary key,
+  name         text not null,
+  category     text not null,
+  unit         text not null          -- oz, lb, ...
+);
+
+create table material_purchases (
+  line_id      text primary key,
+  po_date      date not null,
+  plant_id     text not null references plants,
+  supplier_id  text not null references suppliers,
+  material_key text not null references materials,
+  qty          numeric not null,
+  unit         text not null,
+  unit_price   numeric(12,4) not null,
+  amount       numeric(14,2) not null
+);
+
+-- Market price range per item (a material_key or a part_number).
+-- Demo values are illustrative; production would use commodity indexes and distributor feeds.
+create table market_benchmarks (
+  item_key  text primary key,
+  item_type text not null check (item_type in ('material','part')),
+  name      text not null,
+  unit      text not null,
+  low       numeric(12,4) not null,
+  median    numeric(12,4) not null,
+  high      numeric(12,4) not null,
+  source    text not null,
+  as_of     date not null
+);
+
+-- Quotes from alternative vendors the company does not buy from today.
+create table vendor_quotes (
+  id             serial primary key,
+  vendor         text not null,
+  item_key       text not null references market_benchmarks,
+  unit_price     numeric(12,4) not null,
+  min_qty        numeric not null,      -- per order, in the item's unit
+  lead_time_days integer not null,
+  terms          text not null
+);
+create index on vendor_quotes (item_key);

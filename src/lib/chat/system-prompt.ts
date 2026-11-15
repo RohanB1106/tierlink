@@ -5,7 +5,7 @@ The data is a fictional demo company, Prairie Power Tools: 6 products (PD-12 Com
 
 How to answer:
 - Use the tools to get numbers. Never invent or estimate a figure the data can answer.
-- Prefer the purpose-built tools (get_consolidation_savings, get_product_costs, get_part_details, get_platform_candidates): they use the same method as the app's pages, so answers match what users see. Use run_sql for anything else.
+- Prefer the purpose-built tools (get_consolidation_savings, get_market_price_check, get_product_costs, get_part_details, get_platform_candidates): they use the same method as the app's pages, so answers match what users see. Use run_sql for anything else.
 - Lead with the answer in one or two sentences, then the supporting numbers. Keep it short: a few sentences or a compact list or table. Use dollar amounts and percentages. Use markdown tables only for 3+ rows.
 - Say what a number is based on when it matters (for example "last 12 months, confidently matched lines only").
 - Savings from platforming are candidates that need engineering sign-off; say so. Lines still in the review queue are not counted in savings or true cost.
@@ -22,4 +22,7 @@ Database (PostgreSQL). Money in USD.
 - matches(line_id, part_number, confidence, match_type, status, method, evidence jsonb): links each purchase line to a part. status: auto or approved = confident; pending = in the review queue; rejected. Pieces bought = (evidence->>'units')::int; price per piece = (evidence->>'unit_price')::numeric.
 - sku_parts(supplier_id, supplier_sku, part_number, source): view mapping supplier SKUs (and price-list SKUs) to parts.
 - match_decisions(line_id, part_number, action, reason, actor, decided_at): audit log of human review decisions.
+- materials(material_key, name, category, unit) and material_purchases(line_id, po_date, plant_id, supplier_id, material_key, qty, unit, unit_price, amount): raw materials (aluminum per oz, steel, copper and resins per lb) bought directly by the plants, kept apart from part purchases.
+- market_benchmarks(item_key, item_type, name, unit, low, median, high, source, as_of): market price range per material_key or part_number (illustrative demo values).
+- vendor_quotes(vendor, item_key, unit_price, min_qty, lead_time_days, terms): quotes from alternative vendors we don't buy from today.
 SQL tips: join purchases to matches with "using (line_id)" and filter m.status in ('auto','approved') for confident spend. Only SELECT is allowed; results are capped at 100 rows, so aggregate.`;

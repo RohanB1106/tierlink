@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getProductCosts } from "@/lib/queries";
 import { money, moneyShort, num, pct } from "@/lib/format";
+import { PageHeader } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "True Cost per Product · TierLink" };
@@ -14,12 +15,12 @@ export default async function ProductsPage() {
   const truth = annual("trueCost");
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-10 sm:px-8">
-      <h1 className="text-3xl font-semibold tracking-tight">True Cost per Product</h1>
-      <p className="mt-2 max-w-3xl text-neutral-600 dark:text-neutral-300">
-        What each product really costs once every purchase is tied back to its BOM: shared parts split by how many each
-        product uses, and spare and warranty orders included. Compared with what the price lists say it should cost.
-      </p>
+    <main className="mx-auto max-w-6xl px-4 py-10 sm:px-8">
+      <PageHeader
+        kicker="True Cost per Product"
+        title="What each product really costs"
+        description="Once every purchase is tied back to its BOM: actual prices paid, shared parts split by how many each product uses, and spare and warranty orders included. Compared with what the price lists say it should cost."
+      />
 
       <section className="mt-6 grid gap-3 sm:grid-cols-3">
         <Card label="Real material cost vs. quoted BOM cost" value={`+${pct(truth / quoted - 1)}`} note={`${moneyShort(truth - quoted)} a year above the quotes`} accent />

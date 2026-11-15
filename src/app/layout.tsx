@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Logo } from "@/components/ui";
+import { NavLinks } from "@/components/nav";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,9 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TierLink",
+  title: "TierLink: BOM-to-spend intelligence",
   description:
-    "Link BOMs to supplier spend, normalize volume price breaks, and find consolidation and standardization savings.",
+    "TierLink links a manufacturer's BOMs to every supplier receipt, then finds savings from volume price tiers, market prices and part standardization.",
 };
 
 export default function RootLayout({
@@ -26,29 +28,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <header className="border-b border-neutral-200 dark:border-neutral-800">
-          <nav className="mx-auto flex max-w-5xl flex-wrap items-center gap-x-5 gap-y-1 px-4 py-3 text-sm sm:px-8">
-            <Link href="/" className="font-semibold tracking-tight">
+      <body className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}>
+        <header className="sticky top-0 z-20 border-b border-neutral-200 bg-[var(--background)]/90 backdrop-blur dark:border-neutral-800">
+          <nav className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-1 gap-y-1 px-4 py-2.5 text-sm sm:px-8" aria-label="Main">
+            <Link href="/" className="mr-3 flex items-center gap-2 py-1.5 font-semibold tracking-tight">
+              <Logo className="size-5" />
               TierLink
             </Link>
-            {[
-              ["/review", "Review Queue"],
-              ["/consolidation", "Consolidation"],
-              ["/products", "Products"],
-              ["/platform", "Platforming"],
-              ["/ask", "Ask"],
-              ["/parts", "Parts"],
-            ].map(([href, label]) => (
-              <Link key={href} href={href} className="text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100">
-                {label}
-              </Link>
-            ))}
+            <NavLinks />
           </nav>
         </header>
-        {children}
+        <div className="flex-1">{children}</div>
+        <footer className="border-t border-neutral-200 dark:border-neutral-800">
+          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-6 text-xs text-neutral-500 sm:px-8">
+            <span className="flex items-center gap-2">
+              <Logo className="size-4" />
+              TierLink · Kearney PERLab Hackathon · Team Double Trouble
+            </span>
+            <span>Demo data: Prairie Power Tools, a fictional manufacturer</span>
+          </div>
+        </footer>
       </body>
     </html>
   );

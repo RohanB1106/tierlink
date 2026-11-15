@@ -84,6 +84,30 @@ async function main() {
     })),
   );
 
+  await insert("materials", csv("materials.csv"));
+  await insert(
+    "material_purchases",
+    csv("material_purchases.csv").map((r) => ({
+      ...r,
+      qty: num(r.qty),
+      unit_price: num(r.unit_price),
+      amount: num(r.amount),
+    })),
+  );
+  await insert(
+    "market_benchmarks",
+    csv("market_benchmarks.csv").map((r) => ({ ...r, low: num(r.low), median: num(r.median), high: num(r.high) })),
+  );
+  await insert(
+    "vendor_quotes",
+    csv("vendor_quotes.csv").map((r) => ({
+      ...r,
+      unit_price: num(r.unit_price),
+      min_qty: num(r.min_qty),
+      lead_time_days: num(r.lead_time_days),
+    })),
+  );
+
   const [s] = await sql`
     select count(*)::int as lines,
            sum(extended_amount)::numeric(14,0) as spend,

@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "data:generate": "python3 scripts/generate_data.py",
+    "data:generate": "python3 scripts/generate_data.py && python3 scripts/generate_market.py",
     "data:answer-key": "python3 scripts/answer_key.py",
     "db:load": "node --env-file=.env.local scripts/load_db.mjs",
     "test": "node --test src/lib/**/*.test.ts",

@@ -22,6 +22,7 @@ const TOOL_LABEL: Record<string, string> = {
   get_product_costs: "Looked up product costs",
   get_part_details: "Looked up a part",
   get_platform_candidates: "Checked platforming candidates",
+  get_market_price_check: "Checked market prices",
 };
 
 const SUGGESTIONS = [
@@ -29,7 +30,7 @@ const SUGGESTIONS = [
   "Why does the PD-20 cost more than its BOM quote?",
   "Which parts do we buy from 3 or more suppliers?",
   "What would we save if only Peoria and Champaign pooled orders?",
-  "Which brackets could be standardized?",
+  "Which materials are we paying above market for, and who is cheaper?",
   "How much do we spend on spare and warranty parts, by product?",
 ];
 

@@ -3,6 +3,7 @@ import { sql } from "@/lib/db";
 import { simulate, type PartDemand, type Tier } from "@/lib/pricing/consolidation";
 import { trueCost, type BomLine, type Product } from "@/lib/pricing/true-cost";
 import { commonality, findCandidates, type PlatformPart } from "@/lib/pricing/platforming";
+import { checkAll, type MarketItem } from "@/lib/pricing/market";
 
 /** Only confident matches count: auto-matched or human-approved. */
 const CONFIDENT = ["auto", "approved"];
@@ -223,4 +224,62 @@ export async function getPlatformData() {
       description: string;
     }[],
   };
+}
+
+/** Our recent price vs. market range for every benchmarked material and part, with alternative quotes. */
+export async function getMarketCheck() {
+  const [names, benchmarks, quotes, materialRows, partRows] = await Promise.all([
+    getSupplierNames(),
+    sql`select item_key, item_type, name, unit, low::float8, median::float8, high::float8, source from market_benchmarks`,
+    sql`select item_key, vendor, unit_price::float8, min_qty::float8, lead_time_days, terms from vendor_quotes`,
+    // Materials: price = last 3 months weighted average; quantity = last 12 months.
+    sql`
+      select material_key as item_key,
+             sum(amount) filter (where po_date >= date '2026-08-01')::float8
+               / nullif(sum(qty) filter (where po_date >= date '2026-08-01'), 0)::float8 as our_price,
+             sum(qty) filter (where po_date >= date '2025-11-01')::float8 as annual_qty,
+             array_agg(distinct supplier_id) as suppliers
+      from material_purchases group by 1`,
+    // Parts: confidently matched production lines only.
+    sql`
+      select m.part_number as item_key,
+             sum(p.extended_amount) filter (where p.po_date >= date '2026-08-01')::float8
+               / nullif(sum((m.evidence->>'units')::int) filter (where p.po_date >= date '2026-08-01'), 0)::float8 as our_price,
+             sum((m.evidence->>'units')::int) filter (where p.po_date >= date '2025-11-01')::float8 as annual_qty,
+             array_agg(distinct p.supplier_id) as suppliers
+      from purchases p join matches m using (line_id)
+      where p.order_type = 'PRODUCTION' and m.status in ${sql(CONFIDENT)}
+        and m.part_number in (select item_key from market_benchmarks where item_type = 'part')
+      group by 1`,
+  ]);
+  const usage = new Map([...materialRows, ...partRows].map((r) => [r.item_key as string, r]));
+  const items: MarketItem[] = benchmarks.flatMap((b) => {
+    const u = usage.get(b.item_key);
+    if (!u?.our_price) return [];
+    return [
+      {
+        item_key: b.item_key,
+        item_type: b.item_type,
+        name: b.name,
+        unit: b.unit,
+        ourPrice: u.our_price,
+        annualQty: u.annual_qty ?? 0,
+        suppliers: (u.suppliers as string[]).map((s) => names[s] ?? s),
+        low: b.low,
+        median: b.median,
+        high: b.high,
+        source: b.source,
+        quotes: quotes
+          .filter((q) => q.item_key === b.item_key)
+          .map((q) => ({
+            vendor: q.vendor,
+            unit_price: q.unit_price,
+            min_qty: q.min_qty,
+            lead_time_days: q.lead_time_days,
+            terms: q.terms,
+          })),
+      },
+    ];
+  });
+  return checkAll(items);
 }

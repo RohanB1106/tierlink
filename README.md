@@ -16,6 +16,8 @@ Kearney PERLab Hackathon · Team Double Trouble · Corporate Track 3 (BOM Cost L
 - [x] True Cost per Product (`/products`, `/products/[id]`)
 - [x] Platforming: near-duplicate groups, shared-parts matrix and 3D product-family viewer (`/platform`)
 - [x] Ask the Ledger chatbot (`/ask`), Claude with read-only data tools
+- [x] Market Price Check (`/market`): our price vs. market range, alternative vendors and savings
+- [x] Dashboard home page with live figures
 - [ ] True cost per product (incl. spare/warranty)
 - [ ] "Ask the Ledger" chatbot
 - [ ] Platforming clusters + 3D product-family viewer
@@ -111,6 +113,15 @@ On the demo data every product really costs **5–8% more than quoted** (~$562K/
 On the demo data: **82 → 66 part numbers** (the 14 planted brackets fall into exactly their 3 groups; M3 screws group by finish only), ~$72.6K/yr extra price savings.
 
 The 3D viewer (`src/app/platform/viewer.tsx`, React Three Fiber) draws each product from simple solids, one per BOM assembly, colored by whether the assembly is mostly shared parts (core) or product-specific (module). It has an exploded view and click-through to parts.
+
+## Market Price Check
+
+`/market` compares what we pay (last 3 months, weighted) for raw materials (aluminum per oz, steel, copper and resins per lb) and the 18 highest-spend parts with a market price range (`src/lib/pricing/market.ts`):
+
+- **Above market** when we pay more than 5% over the market median; below when more than 5% under.
+- **Best alternative**: the cheapest vendor quote below our price whose minimum order fits our usual monthly volume; savings = price gap × annual quantity.
+
+Demo result: 13 of 23 items above market, ~$601K/yr available from alternative vendors (e.g. aluminum 6061 at $0.31/oz vs. a $0.26 median; Ridgeline Supply quotes $0.229). Market ranges and quotes come from `scripts/generate_market.py` and are **illustrative**; in production they would come from commodity indexes and distributor feeds.
 
 ## Ask the Ledger (AI assistant)
 

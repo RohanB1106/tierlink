@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { sql } from "@/lib/db";
 import type { MatchEvidence } from "@/lib/matching/match";
+import { PageHeader } from "@/components/ui";
 import { decide } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -65,12 +66,12 @@ export default async function ReviewPage() {
   );
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-10 sm:px-8">
-      <h1 className="text-3xl font-semibold tracking-tight">Review Queue</h1>
-      <p className="mt-2 max-w-2xl text-neutral-600 dark:text-neutral-300">
-        Invoice lines the Ingestion Agent could not match with certainty. Nothing here counts toward savings until a
-        person approves it. Every decision is logged.
-      </p>
+    <main className="mx-auto max-w-6xl px-4 py-10 sm:px-8">
+      <PageHeader
+        kicker="Review Queue"
+        title="Matches waiting for a person"
+        description="Invoice lines the Ingestion Agent could not match with certainty. Nothing here counts toward savings until a person approves it, and every decision is logged."
+      />
 
       <dl className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[

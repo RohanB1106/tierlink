@@ -42,7 +42,7 @@ export default async function PartPage({ params }: Params) {
   const sum = (rs: readonly { amount: number }[]) => rs.reduce((s, r) => s + r.amount, 0);
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-10 sm:px-8">
+    <main className="mx-auto max-w-6xl px-4 py-10 sm:px-8">
       <Link href="/parts" className="text-sm text-neutral-500 hover:underline">
         ← All parts
       </Link>
