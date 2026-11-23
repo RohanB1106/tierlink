@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Founders } from "@/components/founders";
 
 const primary = "rounded-lg bg-violet-600 px-5 py-3 text-sm font-medium text-white hover:bg-violet-700";
 const secondary =
@@ -187,11 +188,14 @@ export default function Home() {
         <div className="mx-auto max-w-3xl px-4 py-16 text-center sm:px-8">
           <h2 className="text-2xl font-semibold tracking-tight">Who we are</h2>
           <p className="mt-4 leading-relaxed text-neutral-700 dark:text-neutral-300">
-            We&apos;re a small team of University of Illinois students in computer science and economics. TierLink started at the
+            We&apos;re Rohan and Aarav, University of Illinois students in computer science and economics. TierLink started at the
             Kearney PERLab Hackathon, where we saw how much money manufacturers lose simply because their engineering and
             purchasing data don&apos;t talk to each other. We work closely with each client, and you&apos;ll always talk to the people
             building the tool.
           </p>
+          <div className="mt-8">
+            <Founders />
+          </div>
         </div>
       </section>
 

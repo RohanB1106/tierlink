@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/ui";
 import { ReviewForm } from "./form";
+import { Founders } from "@/components/founders";
 
 export const metadata: Metadata = { title: "Free savings review · TierLink" };
 
@@ -30,6 +31,12 @@ export default function ContactPage() {
             </li>
           ))}
         </ol>
+        <div className="mt-10">
+          <p className="text-sm font-medium">You&apos;ll be talking with</p>
+          <div className="mt-3">
+            <Founders compact />
+          </div>
+        </div>
       </div>
       <ReviewForm />
     </main>
