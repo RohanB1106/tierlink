@@ -9,6 +9,16 @@ type Filter = "all" | "above" | "material" | "part";
 
 const price = (v: number) => money(v, v < 1 ? 4 : 2);
 
+/** Search links on real industrial distributors, so a buyer can check live prices themselves. */
+function realSupplierLinks(name: string) {
+  const term = name.split(",")[0].replace(/\(.*?\)/g, "").trim();
+  const slug = term.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return [
+    { label: "Grainger", href: `https://www.grainger.com/search?searchQuery=${encodeURIComponent(term)}` },
+    { label: "McMaster-Carr", href: `https://www.mcmaster.com/${slug}/` },
+  ];
+}
+
 const STATUS = {
   above: { label: "Above market", cls: "bg-rose-100 text-rose-800 dark:bg-rose-950/50 dark:text-rose-300" },
   at: { label: "At market", cls: "bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300" },
@@ -100,7 +110,9 @@ export function MarketTable({ results }: { results: MarketResult[] }) {
                     <td className="py-3 pr-3">
                       {r.status === "above" && r.best ? (
                         <>
-                          <div className="font-medium">{r.best.vendor}</div>
+                          <div className="font-medium">
+                            {r.best.vendor} <span className="text-xs font-normal text-neutral-500">(sample vendor)</span>
+                          </div>
                           <div className="text-xs text-neutral-500 tabular-nums">
                             {price(r.best.unit_price)} · {pct(r.best.pctBelowOurs)} less · {r.best.lead_time_days}-day lead time
                           </div>
@@ -119,10 +131,24 @@ export function MarketTable({ results }: { results: MarketResult[] }) {
                         <div className="text-xs text-neutral-500">
                           {num(r.annualQty)} {r.unit} a year · market median {price(r.median)} (range {price(r.low)}–{price(r.high)}) · {r.source}
                         </div>
+                        <div className="mt-2 flex flex-wrap items-center gap-2 text-sm">
+                          <span className="text-neutral-600 dark:text-neutral-400">Check live prices from real suppliers:</span>
+                          {realSupplierLinks(r.name).map((l) => (
+                            <a
+                              key={l.label}
+                              href={l.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="rounded-md border border-neutral-300 px-2 py-0.5 font-medium text-violet-700 hover:border-violet-400 hover:bg-violet-50 dark:border-neutral-700 dark:text-violet-300 dark:hover:bg-violet-950/30"
+                            >
+                              {l.label} ↗
+                            </a>
+                          ))}
+                        </div>
                         <table className="mt-3 w-full text-left text-sm">
                           <thead className="text-neutral-500">
                             <tr>
-                              <th className="py-1 pr-3 font-medium">Vendor</th>
+                              <th className="py-1 pr-3 font-medium">Sample vendor</th>
                               <th className="py-1 pr-3 text-right font-medium">Quote</th>
                               <th className="py-1 pr-3 text-right font-medium">vs. ours</th>
                               <th className="py-1 pr-3 text-right font-medium">Min. order</th>

@@ -1,7 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async redirects() {
+    return [
+      // Old links (pitch decks, Devpost) keep working.
+      { source: "/ask", destination: "/chatbot", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

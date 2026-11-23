@@ -6,7 +6,7 @@ import { simulate } from "@/lib/pricing/consolidation";
 import { getDemand, getMarketCheck, getPart, getPlatformData, getProductCosts, getSupplierNames, getTiers } from "@/lib/queries";
 import { checkSql } from "@/lib/chat/sql-guard";
 
-// Tools the "Ask the Ledger" assistant can call. All are read-only.
+// Tools the TierLink Chatbot can call. All are read-only.
 
 const MAX_ROWS = 100;
 

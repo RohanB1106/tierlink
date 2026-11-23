@@ -23,9 +23,10 @@ export default async function MarketPage() {
       </section>
       <MarketTable results={results} />
       <p className="mt-6 text-xs text-neutral-500">
-        Our price: weighted average of the last 3 months (Aug–Oct 2026). Quantity: last 12 months. Market ranges and vendor
-        quotes in this demo are illustrative; in production they would come from commodity indexes (e.g. LME, Fastmarkets)
-        and distributor price feeds. For purchased parts, switching vendors and pooling orders can overlap, so these
+        Our price: weighted average of the last 3 months (Aug–Oct 2026). Quantity: last 12 months. Market ranges and the
+        vendors in this demo (Ridgeline Supply, Keystone Metals and others) are sample data made up for the demo company, not
+        real businesses. For a client, TierLink uses their own supplier quotes plus commodity indexes (e.g. LME, Fastmarkets)
+        and distributor prices; open any row to search real suppliers such as Grainger and McMaster-Carr. For purchased parts, switching vendors and pooling orders can overlap, so these
         savings are not added to the Consolidation Simulator&apos;s.
       </p>
     </main>

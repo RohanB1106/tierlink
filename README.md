@@ -168,3 +168,12 @@ Other scripts: `npm test` (matcher unit tests), `npm run match:eval` (accuracy v
 ## Stack
 
 Next.js 16 + TypeScript + Tailwind · Neon Postgres + pgvector · Vercel · Claude API agents (planned) · fuzzy matching + embeddings (planned) · scikit-learn clustering (planned) · React Three Fiber 3D (planned)
+
+## Savings-review requests (leads)
+
+The public "Free savings review" form (`/contact`) saves requests to a **separate database**, `tierlink_leads`, on the same Neon project. The chatbot only connects to the demo database, so it can never read a customer's contact details.
+
+```bash
+node --env-file=.env.local scripts/setup_leads.mjs   # one time: create the database and table
+node --env-file=.env.local scripts/list_leads.mjs    # see new requests
+```

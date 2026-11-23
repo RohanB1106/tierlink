@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Logo } from "@/components/ui";
-import { NavLinks } from "@/components/nav";
+import { DemoBar, NavLinks } from "@/components/nav";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,9 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TierLink: BOM-to-spend intelligence",
+  title: "TierLink: purchasing savings for manufacturers",
   description:
-    "TierLink links a manufacturer's BOMs to every supplier receipt, then finds savings from volume price tiers, market prices and part standardization.",
+    "TierLink connects a manufacturer's bills of materials to every supplier invoice, then shows where to buy together, pay closer to market and cut duplicate parts.",
 };
 
 export default function RootLayout({
@@ -37,15 +37,20 @@ export default function RootLayout({
             </Link>
             <NavLinks />
           </nav>
+          <DemoBar />
         </header>
         <div className="flex-1">{children}</div>
         <footer className="border-t border-neutral-200 dark:border-neutral-800">
           <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-6 text-xs text-neutral-500 sm:px-8">
             <span className="flex items-center gap-2">
               <Logo className="size-4" />
-              TierLink · Kearney PERLab Hackathon · Team Double Trouble
+              TierLink · Purchasing savings for manufacturers · Champaign, Illinois
             </span>
-            <span>Demo data: Prairie Power Tools, a fictional manufacturer</span>
+            <span className="flex flex-wrap gap-x-4">
+              <Link href="/demo" className="hover:text-neutral-800 dark:hover:text-neutral-200">Live demo</Link>
+              <Link href="/contact" className="hover:text-neutral-800 dark:hover:text-neutral-200">Free savings review</Link>
+              <span>Demo uses sample data for a made-up company</span>
+            </span>
           </div>
         </footer>
       </body>
