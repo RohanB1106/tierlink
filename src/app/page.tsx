@@ -188,9 +188,8 @@ export default function Home() {
         <div className="mx-auto max-w-3xl px-4 py-16 text-center sm:px-8">
           <h2 className="text-2xl font-semibold tracking-tight">Who we are</h2>
           <p className="mt-4 leading-relaxed text-neutral-700 dark:text-neutral-300">
-            We&apos;re Rohan and Aarav, students at the University of Illinois. TierLink started at the
-            Kearney PERLab Hackathon, where we saw how much money manufacturers lose simply because their engineering and
-            purchasing data don&apos;t talk to each other. We work closely with each client, and you&apos;ll always talk to the people
+            We&apos;re Rohan and Aarav, students at the University of Illinois. We started TierLink after
+            seeing how much money manufacturers lose simply because their engineering and purchasing data don&apos;t talk to each other. We work closely with each client, and you&apos;ll always talk to the people
             building the tool.
           </p>
           <div className="mt-8">
